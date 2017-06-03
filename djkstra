@@ -1,0 +1,69 @@
+#include<iostream>
+#include<cstdio>
+#include<vector>
+#include<queue>
+
+using namespace std;
+
+//global variable declarations
+#define MAX 10000
+#define INF 100000000
+vector <int> edges[MAX];
+vector <int> costs[MAX];
+
+//function prototypes
+void inputGraph(int edges);
+void shortestPathDjkstra(int node, int sourceNode);
+
+int main()
+{
+    int node, numberOfEdge, sourceNode;
+    scanf("%d%d",&node, &numberOfEdge);
+    inputGraph(numberOfEdge);
+
+    scanf("%d", &sourceNode);
+    shortestPathDjkstra(node, sourceNode);
+
+    return 0;
+}
+
+void inputGraph(int numberOfEdges)
+{
+    int startNode, endNode;
+    for (int i=1; i<= numberOfEdges; i++)
+    {
+        scanf("%d%d", &startNode, &endNode);
+        edges[startNode].push_back(endNode);
+        edges[endNode].push_back(startNode);
+        costs[startNode].push_back(1);
+        costs[endNode].push_back(1);
+    }
+}
+
+void shortestPathDjkstra(int node, int sourceNode)
+{
+    priority_queue <int> pqueue;
+    vector <int> :: iterator itr;
+    vector <int> distance;
+    distance.assign(node, INF);
+
+    // ***apriority queue of pairs should be implement here ***
+    pqueue.push(sourceNode);
+    distance[sourceNode] = 0;
+
+    while(!pqueue.empty())
+    {
+        int currentNode = pqueue.top();
+        for(itr=edges[currentNode].begin(); itr != edges[currentNode].end(); itr++)
+        {
+            if(*itr != sourceNode and distance[*itr] == 0)
+            {
+                pqueue.push(*itr);
+                if(distance[*itr] > distance[currentNode] + costs[*itr])
+                   distance[*itr] = distance[currentNode]+costs[*itr];
+            }
+        }
+        pqueue.pop();
+    }
+
+}
