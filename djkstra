@@ -10,6 +10,7 @@ using namespace std;
 #define INF 100000000
 vector <int> edges[MAX];
 vector <int> costs[MAX];
+vector <int> :: iterator itr;
 
 //function prototypes
 void inputGraph(int edges);
@@ -43,7 +44,6 @@ void inputGraph(int numberOfEdges)
 void shortestPathDjkstra(int node, int sourceNode)
 {
     priority_queue <int> pqueue;
-    vector <int> :: iterator itr;
     vector <int> distance;
     distance.assign(node, INF);
 
